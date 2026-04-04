@@ -16,7 +16,7 @@ router = APIRouter(prefix="/cards", tags=["Cards"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 
 
-# Returns user_id if logged in, None if not
+# Returns user_id if logged in
 def get_optional_user_id(token: Optional[str] = Depends(oauth2_scheme)):
     if not token:
         return None

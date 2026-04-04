@@ -20,7 +20,7 @@ class CardRequest(BaseModel):
     category: Optional[str] = None
 
 
-# Check if current user is admin
+# Check if current user role is admin
 def require_admin(
     db: Session = Depends(get_db),
     user_id: int = Depends(get_current_user_id)
