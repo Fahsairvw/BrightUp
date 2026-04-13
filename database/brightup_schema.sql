@@ -47,14 +47,18 @@ CREATE TABLE user_daily_cards (
     UNIQUE KEY unique_user_card_day (user_id, assigned_at)  -- only 1 card per day
 );
 
--- Admin user (password: "admin123" — change this in production!)
+-- Admin user
 INSERT INTO users (username, email, password, role)
-VALUES ('admin', 'admin@brightup.com', '$2b$12$placeholder_hashed_password', 'admin');
+VALUES ('admin', 'admin@brightup.com', '$2b$12$GT6kkSBCAlnuUrED6NHgqunq0IKbdYf3VyMPdrEhDVhfaG3gI2OyO', 'admin');
 
 -- Sample cards
 INSERT INTO cards (title, message, category, created_by) VALUES
-('Start Small',     'You don\'t have to be great to start, but you have to start to be great.', 'motivation', 1),
-('Breathe',         'Take 3 deep breaths. You\'ve got this.',                                   'calm',       1),
-('One Step',        'Focus on just one thing today. Make it count.',                            'focus',      1),
-('Be Kind',         'Say something kind to someone today — including yourself.',                'wellbeing',  1),
-('Celebrate You',   'You made it through yesterday. That already matters.',                     'positivity', 1);
+('Smile', 'Smile, Smile, Smile!', 'happy', 1),
+('Breathe', 'Better days are coming!','calm', 1),
+('One Step', 'Focus on just one thing today. Make it count.','productive', 1),
+('Be Kind', 'Today is my cup of tea.', 'wellbeing',  1),
+('Celebrate You',   'Definitely right now!', 'positivity', 1),
+('You Got This', 'You can do it!', 'motivation', 1),
+('Take a Break', 'More sweet, must sugar', 'self-care', 1),
+('Gratitude', 'Nothing changes if nothing changes.', 'gratitude', 1),
+('Believe in Yourself', 'Knock at the door and it will be opened.', 'confidence', 1);
