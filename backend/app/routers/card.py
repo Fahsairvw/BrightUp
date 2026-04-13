@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import date
-import random
 from typing import Optional
 
 from app.database import get_db
@@ -15,8 +14,6 @@ router = APIRouter(prefix="/cards", tags=["Cards"])
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 
-
-# Returns user_id if logged in
 def get_optional_user_id(token: Optional[str] = Depends(oauth2_scheme)):
     if not token:
         return None
@@ -26,6 +23,10 @@ def get_optional_user_id(token: Optional[str] = Depends(oauth2_scheme)):
     except JWTError:
         return None
 
+@router.get("/all", response_model=list[CardResponse])
+def get_all_cards(db: Session = Depends(get_db)):
+    cards = db.query(Card).filter(Card.is_active == True).all()
+    return cards
 
 @router.get("/today", response_model=DailyCardResponse)
 def get_today_card(
@@ -34,7 +35,6 @@ def get_today_card(
 ):
     today = date.today()
 
-    # If logged in, check if card already assigned today
     if user_id:
         existing = db.query(UserDailyCard).filter(
             UserDailyCard.user_id == user_id,
@@ -44,23 +44,30 @@ def get_today_card(
             card = db.query(Card).filter(Card.id == existing.card_id).first()
             return {"card": card, "assigned_at": today}
 
-    # Pick a random active card
-    active_cards = db.query(Card).filter(Card.is_active == True).all()
-    if not active_cards:
-        raise HTTPException(status_code=404, detail="No cards available")
+    return {"card": None, "assigned_at": today}
 
-    card = random.choice(active_cards)
+@router.post("/pick/{card_id}", response_model=DailyCardResponse)
+def pick_card(
+    card_id: int,
+    db: Session = Depends(get_db),
+    user_id: Optional[int] = Depends(get_optional_user_id)
+):
+    today = date.today()
+    card = db.query(Card).filter(Card.id == card_id, Card.is_active == True).first()
+    if not card:
+        raise HTTPException(status_code=404, detail="Card not found")
 
-    # Only save to database if logged in
     if user_id:
+        # Check if already picked today
+        existing = db.query(UserDailyCard).filter(
+            UserDailyCard.user_id == user_id,
+            UserDailyCard.assigned_at == today
+        ).first()
+        if existing:
+            raise HTTPException(status_code=400, detail="You already picked a card today!")
+
         assignment = UserDailyCard(user_id=user_id, card_id=card.id)
         db.add(assignment)
         db.commit()
 
     return {"card": card, "assigned_at": today}
-
-
-@router.get("/all", response_model=list[CardResponse])
-def get_all_cards(db: Session = Depends(get_db)):
-    cards = db.query(Card).filter(Card.is_active == True).all()
-    return cards

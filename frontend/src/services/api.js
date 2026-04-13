@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: '/api',
 })
 
 api.interceptors.request.use((config) => {
@@ -27,6 +27,8 @@ export const getMoodHistory = () => api.get('/mood/history')
 
 // Cards
 export const getTodayCard = () => api.get('/cards/today')
+export const pickCard = (cardId) => api.post(`/cards/pick/${cardId}`)
+export const getAllCards = () => api.get('/cards/all')
 
 // Admin
 export const getAdminStats = () => api.get('/admin/stats')

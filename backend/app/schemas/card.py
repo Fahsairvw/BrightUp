@@ -14,5 +14,5 @@ class CardResponse(BaseModel):
 
 
 class DailyCardResponse(BaseModel):
-    card: CardResponse
+    card: Optional[CardResponse] = None
     assigned_at: date

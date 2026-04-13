@@ -28,11 +28,14 @@ const router = createRouter({
   routes
 })
 
-// Guard — block pages that require login
+// Guard — block pages that require login and restrict admins to admin page
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
 
-  if (to.meta.requiresAuth && !auth.isLoggedIn) {
+  // If admin, only allow access to admin page
+  if (auth.isAdmin && to.path !== '/admin') {
+    next('/admin')
+  } else if (to.meta.requiresAuth && !auth.isLoggedIn) {
     next('/login')
   } else if (to.meta.requiresAdmin && !auth.isAdmin) {
     next('/')

@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root {
+  /* Color Palette */
+  --color-bg: #a2b9d5;
+  --color-sea-spray: #a7bbb4;
+  --color-sunshine: #f4f2e2;
+  --color-peach: #f8d5bf;
+  --color-text: #683924;
+}
+
+* {
+  color-scheme: light;
+}
+
+body {
+  background-color: #a2b9d5;
+}

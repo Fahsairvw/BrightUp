@@ -29,7 +29,7 @@ export const useAuthStore = defineStore('auth', {
 
       // Decode token to get role
       const payload = parseToken(this.token)
-      this.user = { id: payload.sub, role: payload.role }
+      this.user = { id: payload.sub, username: payload.username, role: payload.role }
       localStorage.setItem('user', JSON.stringify(this.user))
     },
 
