@@ -14,6 +14,7 @@ router = APIRouter(prefix="/cards", tags=["Cards"])
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 
+
 def get_optional_user_id(token: Optional[str] = Depends(oauth2_scheme)):
     if not token:
         return None
@@ -23,10 +24,12 @@ def get_optional_user_id(token: Optional[str] = Depends(oauth2_scheme)):
     except JWTError:
         return None
 
+
 @router.get("/all", response_model=list[CardResponse])
 def get_all_cards(db: Session = Depends(get_db)):
     cards = db.query(Card).filter(Card.is_active == True).all()
     return cards
+
 
 @router.get("/today", response_model=DailyCardResponse)
 def get_today_card(
@@ -45,6 +48,7 @@ def get_today_card(
             return {"card": card, "assigned_at": today}
 
     return {"card": None, "assigned_at": today}
+
 
 @router.post("/pick/{card_id}", response_model=DailyCardResponse)
 def pick_card(
