@@ -65,7 +65,7 @@ communicates only with the layer directly below it.
   - Node.js 20.19.0+
   - MySQL 8.0
 
-### **Option 1: Using Docker **
+### **Option 1: Using Docker**
 
 1. **Clone/Navigate to project directory:**
    ```bash
