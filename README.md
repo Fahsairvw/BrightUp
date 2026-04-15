@@ -60,10 +60,6 @@ communicates only with the layer directly below it.
 
 ### **Prerequisites**
 - Docker & Docker Compose installed
-- OR (for local development)
-  - Python 3.8+
-  - Node.js 20.19.0+
-  - MySQL 8.0
 
 ### **Option 1: Using Docker**
 
@@ -86,44 +82,6 @@ communicates only with the layer directly below it.
    - Frontend: `http://localhost`
    - API Docs: `http://localhost:8000/docs` (Swagger UI)
 
-### **Option 2: Local Development Setup**
-
-#### Backend Setup:
-```bash
-# Navigate to backend
-cd backend
-
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start the server
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-#### Frontend Setup:
-```bash
-# Navigate to frontend
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-#### Database Setup:
-```bash
-# Create MySQL database using the schema
-mysql -u root -p < database/brightup_schema.sql
-```
-
----
-
 ## How to Run
 
 ### **Using Docker**
@@ -137,32 +95,12 @@ docker-compose down
 
 ```
 
-### **Local Development**
-
-**Terminal 1 - Backend:**
-```bash
-cd backend
-source venv/bin/activate
-uvicorn app.main:app --reload
-```
-
-**Terminal 2 - Frontend:**
-```bash
-cd frontend
-npm run dev
-```
-
-**Terminal 3 - Database (if not using Docker):**
-```bash
-# MySQL should be running on localhost:3306
-mysql -u root -p
-```
 
 ### **Access Points**
 
 | Service | URL | Purpose |
 |---------|-----|---------|
-| Frontend | `http://localhost` (or `http://localhost:5173` in dev) | Web application |
+| Frontend | `http://localhost` | Web application |
 | API Docs | `http://localhost:8000/docs` | Interactive API documentation |
 | Backend API | `http://localhost:8000` | REST API endpoint |
 | Database | `localhost:3306` | MySQL database |
