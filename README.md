@@ -15,7 +15,6 @@ The app promotes mental wellness by encouraging daily self-reflection and provid
 
 ---
 
-##  System Architecture
 ## System Architecture
 
 BrightUp follows a 5-tier layered architecture where each layer 
